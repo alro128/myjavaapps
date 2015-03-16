@@ -29,7 +29,7 @@ public class App {
 			String playlist = file.getParentFile().getName();
 			try {
 				Mp3File mpt = new Mp3File(file.getCanonicalPath());
-				line = "[" + playlist + "]" + mpt.getId3v2Tag().getArtist() + " - " + mpt.getId3v2Tag().getTitle() + "\n";
+				line = mpt.getId3v2Tag().getArtist() + " - " + mpt.getId3v2Tag().getTitle() + "\n";
 				log.info(line);
 				FileUtils.writeStringToFile(new File(playlist + ".m3u"), line, "UTF-8", true);
 
