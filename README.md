@@ -15,3 +15,29 @@ Creates a playlists file from a directory mp3s (based on MP3 IDv2tags) and a dir
 java -jar playlistcreator-1.0-jar-with-dependencies.jar arg
 
 ** arg: directory path of the playlist files or subdirectories
+
+## mywebapp
+
+Webapp template using Java, Spring MVC
+
+## mqpublisher
+
+RabbitMQ publisher client
+
+* Usage:
+
+```
+java -jar mqpublisher-jar-with-dependencies.jar [application.properties] [queue-name] [message] 
+```
+
+## mqsubscriber
+
+RabbitMQ subscriber client
+
+* Usage:
+
+```
+java -jar mqsubscriber-jar-with-dependencies.jar [application.properties] [queue-name]
+```
+
+
