@@ -44,3 +44,16 @@ java -jar mqsubscriber-jar-with-dependencies.jar [application.properties] [queue
 ```
 
 
+## elkscroller
+
+Elasticsearch scroll backup. Creates a json file of each document in index.
+
+* Usage:
+
+** Edit and override app.properties in resources dir
+
+```
+java -jar elkscroller.jar
+```
+
+
