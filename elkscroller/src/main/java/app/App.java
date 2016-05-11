@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 import org.elasticsearch.search.SearchHit;
 import app.helper.PropertiesCache;
+
+import java.io.File;
 import java.io.PrintWriter;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
@@ -14,7 +16,8 @@ import org.elasticsearch.index.query.QueryBuilder;
 
 public class App {
 
-	final static Logger log = Logger.getLogger(App.class);
+	final static Logger LOG = Logger.getLogger(App.class);
+	final static String ENCODING =  "UTF-8";
 
 	public static void main(String[] args) {
 
@@ -31,7 +34,7 @@ public class App {
 
 		boolean indexExists = client.admin().indices().prepareExists(index).execute().actionGet().isExists();
 		if (indexExists) {
-			log.info("Index exists");
+			LOG.info("Index exists");
 		}
 
 		QueryBuilder qb = matchAllQuery();
@@ -40,19 +43,22 @@ public class App {
 
 		int c = 0;
 		String tid = "";
+		String ttype = "";
+		PrintWriter out;
 		while (true) {
 
 			for (SearchHit hit : scrollResp.getHits().getHits()) {
 				c++;
 				tid = (String) hit.getSource().get(idfield);
-				log.info(c + ". id:" + tid);
+				ttype = (String) hit.getType();
+				LOG.info(c + ". type:" + ttype + " id:" + tid);
 
 				try {
-					PrintWriter out = new PrintWriter(tid + fileoutformat);
+					out = new PrintWriter(new File(tid + "-" + ttype + fileoutformat), ENCODING);
 					out.println(hit.sourceAsString());
 					out.close();
 				} catch (Exception e) {
-					log.error("File Error " + e.getMessage());
+					LOG.error("File Error " + e.getMessage());
 				}
 
 			}
