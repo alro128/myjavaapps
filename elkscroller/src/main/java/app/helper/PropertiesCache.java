@@ -9,7 +9,7 @@ import app.App;
 
 public class PropertiesCache {
 
-	final static Logger log = Logger.getLogger(App.class);
+	final static Logger log = Logger.getLogger(PropertiesCache.class);
 
 	private final Properties prop = new Properties();
 	final static String PROPFILE = "app.properties";

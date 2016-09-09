@@ -21,9 +21,28 @@ public class App {
 
 	public static void main(String[] args) {
 
+		String index = PropertiesCache.getInstance().getProperty("elasticsearch.index");
+		int timestamp = 0;
+		
+		if(args.length == 0 || args.length > 2)
+	    {
+	        LOG.info("Proper Usage is: java -jar elkscroller.jar index timestamp");
+	        LOG.info("index: elasticsearch index");
+	        LOG.info("timestamp: get documents from specific timestamp");
+	        System.exit(0);
+	    } else if (args.length==1) {
+	    	//elasticsearch.index
+	    	index = args[0];
+	    } else {
+	    	//elasticsearch.index
+	    	index = args[0];
+	    	//from timestamp
+	    	timestamp = Integer.parseInt(args[1]);
+	    }
+		
 		String elkhost = PropertiesCache.getInstance().getProperty("elasticsearch.hostname");
 		int elkport = Integer.parseInt(PropertiesCache.getInstance().getProperty("elasticsearch.port"));
-		String index = PropertiesCache.getInstance().getProperty("elasticsearch.index");
+
 		String idfield = PropertiesCache.getInstance().getProperty("index.id");
 		int scrolltime = Integer.parseInt(PropertiesCache.getInstance().getProperty("scroll.time"));
 		int scrollsize = Integer.parseInt(PropertiesCache.getInstance().getProperty("scroll.size"));
@@ -37,6 +56,10 @@ public class App {
 			LOG.info("Index exists");
 		}
 
+//		FilterBuilder filter = FilterBuilders.termFilter("capabilities.type", "jndi"); //timestamp > n
+//	    QueryBuilder queryBuilder = QueryBuilders.matchAllQuery();
+//	    queryBuilder = QueryBuilders.filteredQuery(queryBuilder, filter);
+	    
 		QueryBuilder qb = matchAllQuery();
 		SearchResponse scrollResp = client.prepareSearch(index).setSearchType(SearchType.SCAN)
 				.setScroll(new TimeValue(scrolltime)).setQuery(qb).setSize(scrollsize).execute().actionGet();
@@ -50,6 +73,11 @@ public class App {
 			for (SearchHit hit : scrollResp.getHits().getHits()) {
 				c++;
 				tid = (String) hit.getSource().get(idfield);
+				
+				if (tid == null) {
+					tid  = (String) hit.getId();
+				}
+				
 				ttype = (String) hit.getType();
 				LOG.info(c + ". type:" + ttype + " id:" + tid);
 
