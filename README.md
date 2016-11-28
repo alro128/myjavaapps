@@ -56,4 +56,38 @@ Elasticsearch scroll backup. Creates a json file of each document in index.
 java -jar elkscroller.jar
 ```
 
+## csv2xslx
 
+Converts CSV file to XSLX. 
+
+* Required for NLB-NER excel report format 
+* Default delimiter for cell data ;
+* app.properties can be loaded to classpath to change some configuration (delimiter, output extension, header text)
+
+Execution:
+```
+java -jar csv2xslx.jar input.csv
+```
+Result: input.xslx file in the path were jar was executed. A log file will be created to track errors during conversion.
+
+
+## BatchProcess
+
+Batch process of Csv2xlsx. Producer-Consumer model. 10 workers using an ArrayBlockingQueue for concurrent execution. 
+
+app properties
+
+* file.filter.extension=.html.txt.csv
+* queue.size=100
+* batch.workers=10
+* csv.delimeter=;
+* dir.output=output
+
+
+Execution:
+```
+java -jar batchprocess.jar input
+```
+input: file or directory of csv files
+
+Result: output/input.xslx file in the path were jar was
