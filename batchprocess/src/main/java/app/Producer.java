@@ -38,15 +38,4 @@ public class Producer implements Runnable {
         App.finished = true;
     }
 
-    // for (int i = 0; i < 8; i++) {
-    // System.out.println("Trying to add to queue: String " + i +
-    // " and the result was " + queue.offer("String " + i));
-    //
-    // try {
-    // Thread.sleep(500);
-    // } catch (InterruptedException e) {
-    // e.printStackTrace();
-    // }
-    // }
-    // }
 }
