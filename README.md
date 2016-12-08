@@ -91,3 +91,24 @@ java -jar batchprocess.jar input
 input: file or directory of csv files
 
 Result: output/input.xslx file in the path were jar was
+
+## csv2rdf
+
+Converts CSV file to RDF using Apache Jena libraries. Batch process using Producer-Consumer model. 10 workers using an ArrayBlockingQueue for concurrent execution. 
+
+app properties:
+
+* file.filter.extension=.html.txt.csv
+* queue.size=100
+* batch.workers=10
+* csv.delimeter=;
+* dir.output=output
+* dir.rdf=transform
+
+Execution:
+```
+java -jar csv2rdf.jar input
+```
+input: file or directory of csv files
+
+Result: output/*.rdf file in the path were jar was
